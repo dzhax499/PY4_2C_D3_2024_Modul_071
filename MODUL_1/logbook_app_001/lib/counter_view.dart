@@ -96,14 +96,14 @@ class _CounterViewState extends State<CounterView> {
                                     width: 24,
                                     height: 24,
                                     decoration: BoxDecoration(
-                                      color: const Color.fromARGB(255, 255, 0, 0),
+                                      color: const Color.fromARGB(255, 255, 230, 0),
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: Center(
                                       child: Text(
                                         '${index + 1}',
                                         style: const TextStyle(
-                                          color: Colors.white,
+                                          color: Color.fromARGB(255, 0, 64, 255),
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
                                         ),

@@ -85,6 +85,30 @@ class _CounterViewState extends State<CounterView> {
                           itemCount: _controller.getLastFiveActivities().length,
                           itemBuilder: (context, index) {
                             final activities = _controller.getLastFiveActivities();
+                            final activity = activities[index];
+                            final activityType = activity['type'] ?? '';
+
+                          // Warna History berdasarkan tipe aktivitas
+                            Color circleBgColor;
+                            Color textColor;
+                            switch (activityType) {
+                              case 'increment':
+                                circleBgColor = Colors.green;
+                                textColor = Colors.white;
+                                break;
+                              case 'decrement':
+                                circleBgColor = Colors.red;
+                                textColor = Colors.white;
+                                break;
+                              case 'reset':
+                                circleBgColor = const Color.fromARGB(255, 255, 193, 7);
+                                textColor = Colors.black;
+                                break;
+                              default:
+                                circleBgColor = Colors.grey;
+                                textColor = Colors.white;
+                            }
+                            
                             return Padding(
                               padding: const EdgeInsets.symmetric(
                                 vertical: 8,
@@ -93,27 +117,20 @@ class _CounterViewState extends State<CounterView> {
                               child: Row(
                                 children: [
                                   Container(
-                                    width: 24,
-                                    height: 24,
+                                    width: 32,
+                                    height: 32,
                                     decoration: BoxDecoration(
-                                      color: const Color.fromARGB(255, 255, 230, 0),
-                                      borderRadius: BorderRadius.circular(12),
+                                      color: circleBgColor,
+                                      borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: Center(
-                                      child: Text(
-                                        '${index + 1}',
-                                        style: const TextStyle(
-                                          color: Color.fromARGB(255, 0, 64, 255),
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
+                                      child: _getActivityIcon(activityType, textColor),
                                     ),
                                   ),
                                   const SizedBox(width: 12),
                                   Expanded(
                                     child: Text(
-                                      activities[index],
+                                      activity['message'] ?? '',
                                       style: const TextStyle(fontSize: 13),
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -149,6 +166,19 @@ class _CounterViewState extends State<CounterView> {
         ],
       ),
     );
+  }
+
+  Widget _getActivityIcon(String activityType, Color color) {
+    switch (activityType) {
+      case 'increment':
+        return Icon(Icons.add, color: color, size: 18);
+      case 'decrement':
+        return Icon(Icons.remove, color: color, size: 18);
+      case 'reset':
+        return Icon(Icons.refresh, color: color, size: 18);
+      default:
+        return Icon(Icons.info, color: color, size: 18);
+    }
   }
 
   void _showResetConfirmationDialog() {

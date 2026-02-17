@@ -72,7 +72,12 @@ class _CounterViewState extends State<CounterView> {
                     border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  constraints: const BoxConstraints(maxHeight: 200),
+                  // Buat container riwayat mengisi persentase tinggi layar (mis. 45%).
+                  // Gunakan minHeight & maxHeight sama agar selalu tampil dengan tinggi tersebut.
+                  constraints: BoxConstraints(
+                    minHeight: MediaQuery.of(context).size.height * 0.45,
+                    maxHeight: MediaQuery.of(context).size.height * 0.45,
+                  ),
                   child: _controller.getLastFiveActivities().isEmpty
                       ? const Padding(
                           padding: EdgeInsets.all(20),
@@ -81,7 +86,8 @@ class _CounterViewState extends State<CounterView> {
                             style: TextStyle(color: Colors.grey),
                           ),
                         )
-                      : ListView.builder(
+                        : ListView.builder(
+                          shrinkWrap: true,
                           itemCount: _controller.getLastFiveActivities().length,
                           itemBuilder: (context, index) {
                             final activities = _controller.getLastFiveActivities();
